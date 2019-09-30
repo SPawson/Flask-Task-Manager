@@ -8,7 +8,7 @@ port = int(os.environ.get('PORT'))
 M_URI = os.environ.get('MONGO_URI')
 app = Flask(__name__)
 
-app.config["MONGO_DBNAME"] = 'task_manager' #config is a dictionary and by using [] you are accessing the value for the key in []
+app.config["MONGO_DBNAME"] = 'task_manager' #config is a dictionary and by using [] you are accessing the value for the key in [] e.g. config[key] = value
 app.config["MONGO_URI"] = M_URI #Telling the app the connection link
 
 mongo = PyMongo(app) #creates instance of PyMongo
@@ -29,7 +29,7 @@ def add_task():
 def insert_task():
     tasks = mongo.db.tasks
     tasks.insert_one(request.form.to_dict()) #uses flask request object to process form-data
-    return redirect(url_for('get_tasks'))
+    return redirect(url_for('get_tasks'))#On insert find the url for func get tasks and redirect there
 
 if __name__ == '__main__':
     app.run(host = host, port = port, debug=True)
