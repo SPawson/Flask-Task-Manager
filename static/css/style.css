@@ -1,0 +1,23 @@
+.btn_small{
+    height:24px;
+    width:60px;
+    line-height: 24px;
+    margin:5px 5px;
+    padding:0 0.5em; 
+}
+
+.task-header{
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+@media(max-width:531px){
+    .btn_small{
+        display: block;
+    }
+
+    .task-header{
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+}
