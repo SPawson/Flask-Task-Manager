@@ -31,5 +31,13 @@ def insert_task():
     tasks.insert_one(request.form.to_dict()) #uses flask request object to process form-data
     return redirect(url_for('get_tasks'))#On insert find the url for func get tasks and redirect there
 
+@app.route('/edit_task/<task_id>')#taskes task_id param and places in route
+def edit_task(task_id):#task id is passed when edit button clicked
+    the_task = mongo.db.tasks.find_one({"_id":ObjectId(task_id)})#has to use bson format to find in mongo
+    all_categories = mongo.db.categories.find()
+    return render_template('edit-task.html', task= the_task, categories= all_categories)
+
+
 if __name__ == '__main__':
     app.run(host = host, port = port, debug=True)
+    
