@@ -57,6 +57,28 @@ def delete_task(task_id):
     mongo.db.tasks.remove({'_id': ObjectId(task_id)})
     return redirect(url_for('get_tasks'))
 
+@app.route('/categories')
+def get_categories():
+    return render_template("categories.html", categories=mongo.db.categories.find())
+
+@app.route('/edit_category/<category_id>')
+def edit_category(category_id):
+    return render_template("edit-category.html", category=mongo.db.categories.find_one({"_id": ObjectId(category_id)}))
+
+@app.route('/edit_category/<category_id>', methods=["POST"])
+def update_category(category_id):
+    category = mongo.db.categories # accesses the task collection
+    category.update({'_id': ObjectId(category_id)},
+    {
+        'category_name':request.form.get('category_name')
+    }) #Gets the form values and places them into key,value pairs they are obtaining the values from form names
+    return redirect(url_for('get_categories'))    
+
+@app.route('/delete_category/<category_id>')
+def delete_category(category_id):
+    mongo.db.categories.remove_one({'_id': ObjectId(category_id)})
+    return redirect(url_for('get_categories'))
+
 if __name__ == '__main__':
     app.run(host = host, port = port, debug=True)
     
