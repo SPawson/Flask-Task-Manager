@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% block content %}
+
+
+<h3>Add Category</h3>
+
+<div class="row">
+    <form action="{{url_for('add_category')}}" method="POST" class="col s12">
+        <!--action calls the url /insert task-->
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">poll</i>
+                <input required id="category_name" name="category_name" type="text" class="validate"
+                    value="">
+                <!--Sets value as current one in DB-->
+                <label for="category_name">Category Name</label>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <button class="btn waves-effect waves-light" type="submit">Add
+                <i class="material-icons right">send</i>
+            </button>
+
+            <a href="{{url_for('get_categories')}}" class="waves-effect waves-light btn red">Cancel</a>
+            <!--loads edit task func and passes object id to edit page-->
+        </div>
+</div>
+
+
+
+</form>
+</div>
+
+
+{% endblock %}
