@@ -16,7 +16,9 @@ mongo = PyMongo(app) #creates instance of PyMongo
 @app.route('/')
 @app.route('/get_tasks')
 def get_tasks():
-    return render_template("tasks.html", tasks=mongo.db.tasks.find()) #second part will store in var tasks, all of the items in the "task" collection
+    task_list= mongo.db.tasks.find().sort([("due_date", -1)]) # Sorts so closest deadline first
+    print(task_list)
+    return render_template("tasks.html", tasks=task_list) #second part will store in var tasks, all of the items in the "task" collection
 
 @app.route('/add_task')
 def add_task():
@@ -37,6 +39,23 @@ def edit_task(task_id):#task id is passed when edit button clicked
     all_categories = mongo.db.categories.find()
     return render_template('edit-task.html', task= the_task, categories= all_categories)
 
+@app.route('/edit_task/<task_id>', methods=["POST"])
+def update_task(task_id):
+    tasks = mongo.db.tasks # accesses the task collection
+    tasks.update({'_id': ObjectId(task_id)},
+    {
+        'task_name':request.form.get('task_name'),
+        'category_name':request.form.get('category_name'),
+        'task_description': request.form.get('task_description'),
+        'due_date': request.form.get('due_date'),
+        'is_urgent':request.form.get('is_urgent')
+    }) #Gets the form values and places them into key,value pairs they are obtaining the values from form names
+    return redirect(url_for('get_tasks'))
+
+@app.route('/delete_task/<task_id>')
+def delete_task(task_id):
+    mongo.db.tasks.remove({'_id': ObjectId(task_id)})
+    return redirect(url_for('get_tasks'))
 
 if __name__ == '__main__':
     app.run(host = host, port = port, debug=True)

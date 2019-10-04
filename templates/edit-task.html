@@ -5,7 +5,7 @@
 <h3>Edit Task</h3>
 
 <div class="row">
-    <form action="{{url_for('insert_task')}}" method="POST" class="col s12">
+    <form action="{{url_for('update_task', task_id=task._id)}}" method="POST" class="col s12">
         <!--action calls the url /insert task-->
         <div class="row">
             <div class="input-field col s12">
@@ -63,9 +63,12 @@
         </div>
 
         <div class="row">
-            <button class="btn waves-effect waves-light" type="submit">Add Task
+            <button class="btn waves-effect waves-light" type="submit">Edit Task
                 <i class="material-icons right">send</i>
             </button>
+
+            <a href="{{url_for('get_tasks')}}" class="waves-effect waves-light btn red">Cancel</a> <!--loads edit task func and passes object id to edit page-->
+                </div>
         </div>
 
 
